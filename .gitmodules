@@ -1,0 +1,6 @@
+[submodule "reveal.js"]
+	path = reveal.js
+	url = https://github.com/hakimel/reveal.js.git
+[submodule "pics/artwork"]
+	path = pics/artwork
+	url = https://github.com/datalad-handbook/artwork.git
