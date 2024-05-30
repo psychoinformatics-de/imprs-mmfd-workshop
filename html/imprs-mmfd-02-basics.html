@@ -24,80 +24,117 @@
   <!--...Datalad Basics...-->
 
   <section>
-<section>
-<script src="https://cdn.logwork.com/widget/countdown.js"></script>
-<a href="https://logwork.com/countdown-2zu8" class="countdown-timer"
-   data-style="columns" data-timezone="Europe/Berlin" data-date="2022-07-20 16:00">
-   Up next: DataLad Basics & Exercises</a>
-</section>
-</section>
+
+    <section>
+    <h2>Research data management with DataLad</h2>
+    <h2>@ IMPRS-MMFD</h2>
+    <strong>2 - Hands-on DataLad basics</strong><br>
+    <img src="../pics/datalad_git.svg" style="height:260px; margin-bottom: 0;" alt="title image">
+      <div style="margin-top:1em;text-align:center">
+      <table style="border: none;">
+      <tr>
+          <td>
+              Stephan Heunis<br>
+              <small>
+                <a href="https://github.com/jsheunis" target="_blank">
+                <img data-src="../pics/GitHub.png" style="height:30px;margin:0px" />
+                jsheunis
+                </a>
+            </small>
+          </td>
+          <td>
+              Michał Szczepanik<br>
+              <small>
+                <a href="https://github.com/mslw" target="_blank">
+                <img data-src="../pics/GitHub.png" style="height:30px;margin:0px" />
+                mslw
+                </a>
+            </small>
+          </td>
+      </tr>
+      <tr>
+        <td>
+            <img style="height:70px;margin-right:10px;margin-top:20px" data-src="../pics/fzj_logo.svg" /><br>
+        </td>
+        <td style="padding-top: 20px; vertical-align: top;">
+  <small style="margin-top:0px;margin-top:0px"><a href="http://psychoinformatics.de" target="_blank">Psychoinformatics lab</a>,
+                <br> Institute of Neuroscience and Medicine (INM-7)<br>
+                     Research Center Jülich</small><br>
+        </td>
+      </tr>
+      </table>
+      </div>
+  
+    <br><br><small>
+        Slides: <a href="https://github.com/datalad-handbook/course/blob/master/talks/PDFs" target="_blank">
+        https://github.com/datalad-handbook/course/</a></small>
+    </a>
+    </section>
+    </section>
 
 <section>
+<section>
+    <h2>💻Your turn💻</h2>
 
-<section data-markdown><script type="text/template">
-## Your turn!
+    Use what you already know about how and where to get help to complete these challenges
+    on <a href="https://workshop-hub.datalad.org">workshop-hub.datalad.org</a> (or on your own system):
+    <br><br>
+    <ol style="font-size: 34px;">
+        <li><strong>Create</strong> dataset, add a file with the content "abc". Check the <strong>status</strong>
+            of the dataset. Now <strong>save</strong> the dataset with a <strong>commit message</strong>. Check the
+            status again.</li>
+        <li><strong>Create</strong> a different dataset *outside* the first one.</li>
+        <li><strong>Clone</strong> the first dataset into the second under the name "input".</li>
+        <li>Use datalad to <strong>capture the provenance</strong> of a data transformation that converts
+            the content of the file created at (1) to all-uppercase and saves it in the dataset
+            from (2). Hint the command:
 
-Use what you already know about how and where to get help to complete these challenges
-on https://datalad-hub.inm7.de or on your own system:
-<!-- .element: style="text-align:left" -->
+            <pre>
+                <code data-trim class="language-bash copycode">
+                    sh -c 'tr "a-z" "A-Z" < inputpath > outputpath'
+                </code>
+            </pre>
 
-1. **Create** dataset, add a file with the content "abc". Check the **status**
-   of the dataset. Now **save** the dataset with a **commit message**. Check the
-   status again.
-
-2. **Create** a different dataset *outside* the first one.
-
-3. **Clone** the first dataset into the second under the name "input".
-
-4. Use datalad to capture the provenance of a data transformation that converts
-   the content of the file created at (1) to all-uppercase and saves it in the dataset
-   from (2). Hint the command
-   ```
-   sh -c 'tr "a-z" "A-Z" < inputpath > outputpath'
-   ```
-   can convert text in this fashion.
-
-5. Check the **status** of the dataset. Now let DataLad show you the change
-   to the dataset that running the `tr` command made.
-</script></section>
+            can convert text in this fashion.
+        </li>
+        <li>Check the <strong>status</strong> of the dataset. Now let DataLad show you the change
+            to the dataset that running the <code>tr</code> command made.</li>
+    </ol>
+</section>
 </section>
 
 <section>
     <section>
-        <h2>A guided code-along through DataLad's Basics and internals</h2>
-        <small>Code:<a href="https://psychoinformatics-de.github.io/rdm-course/01-content-tracking-with-datalad/index.html#getting-started-create-an-empty-dataset" target="_blank">
-           psychoinformatics-de.github.io/rdm-course/01-content-tracking-with-datalad/index.html#getting-started-create-an-empty-dataset
-          </a></small><br>
+        <h2>Let's dissect that, via</h2>
+        <h3>A guided code-along through DataLad's Basics and internals</h3>
+        <br>
+        Code:<br><a href="https://psychoinformatics-de.github.io/rdm-course/01-content-tracking-with-datalad/index.html" target="_blank">
+            psychoinformatics-de.github.io/rdm-course/01-content-tracking-with-datalad/index.html
+          </a><br>
     </section>
-  <section>
-      <h2>DataLad Datasets</h2>
-
-      <ul>
-          <li>DataLad's core data structure</li>
-          <ul style="font-size:35px">
-              <li>Dataset = A directory managed by DataLad</li>
-              <li>Any directory of your computer can be managed by DataLad.</li>
-              <li>Datasets can be <i>created</i> (from scratch) or <i>installed</i></li>
-              <li>Datasets can be nested: <i>linked subdirectories</i></li>
-          </ul>
-          <div class="fragment fade-in"><pre><code>$ datalad create -c text2git my-dataset</code></pre></div>
-      </ul>
-
-
-  <aside class="notes">
-      <li>anything can be managed: CV, website, music library, phd</li>
-      <li>show this on the manuscript repo: history, looks/feels</li>
-  </aside>
-  </section>
-
-<section data-transition="None">
-    <h2>DataLad Datasets</h2>
-    A DataLad dataset is a joined Git + git-annex repository
-    <img src="../pics/slides/pics/datalad_sandwhich_tuned/sandwhich03.svg">
-</section>
 </section>
 
 <section>
+    <section>
+        <h2>Local version control</h2>
+    </section>
+
+    <section>
+        <h2>Local version control</h2>
+        You created a DataLad dataset: <br><br>
+        <ul>
+            <li>DataLad's core data structure</li>
+            <ul style="font-size:35px">
+                <li>Dataset = A directory managed by DataLad (git + git-annex)</li>
+                <li>Any directory of your computer can be managed by DataLad (CV, website, music library, phd)</li>
+                <li>Datasets can be <i>created</i> (from scratch) or <i>installed</i></li>
+                <li>Datasets can be nested: <i>linked subdirectories</i></li>
+            </ul>
+            <div class="fragment fade-in"><pre><code>$ datalad create -c text2git my-dataset</code></pre></div>
+        </ul>
+    </section>
+
+
   <section data-transition="None">
       <h3>What is version control?</h3>
       <img height="400" src="../pics/turingway/VersionControl.svg">
@@ -223,14 +260,32 @@ on https://datalad-hub.inm7.de or on your own system:
       </dl>
   </section>
 
+</section>
 
-  <section>
-      <h2>Questions!</h2>
-      <small>Awkward silence can be bridged with awkward MC questions :) </small>
-      <iframe src="https://directpoll.com/r?XDbzPBdEt8j1rJlVwV5I4m6c9z8nJU2YLnRe3j3k",
-              style="border: 0" width="900" height="800"></iframe>
-  </section>
-  </section>
+
+<section>
+    <section>
+        <h2>💻Your turn💻</h2>
+    
+        Starting at the <a href="https://psychoinformatics-de.github.io/rdm-course/01-content-tracking-with-datalad/index.html#getting-started-create-an-empty-dataset">
+            <strong>Getting started: create an empty dataset</strong> 
+        </a> section, follow the code-along instructions to:
+
+        <br><br>
+        <ol style="font-size: 34px;">
+            <li>Create an empty dataset with a <code class="intext-code">text2git</code> configuration</li>
+            <li>List the contents of the "empty" dataset</li>
+            <li>Explore the dataset's commit history with <code class="intext-code">tig</code></li>
+            <li>Add file content to the dataset</li>
+            <li>Inspect dataset changes with <code class="intext-code">datalad status</code></li>
+            <li>Describe and commit/save changes using <code class="intext-code">datalad save</code></li>
+            <li>Inspect the dataset layout with <code class="intext-code">tree</code></li>
+            <li>Capture the origin of a downloaded file in the dataset with <code class="intext-code">datalad download-url</code></li>
+        </ol>
+        <br><br>
+        <small><em>(stop before section <strong>Breaking things and repairing them</strong> )</em></small>
+    </section>
+</section>
 
 <section>
     <section>
@@ -256,9 +311,9 @@ on https://datalad-hub.inm7.de or on your own system:
 
     </section>
 
-    <section>
+<section>
         <h2>Summary: Interacting with Git's history (teaser)</h2>
-  <dl>
+  <dl style="font-size: 32px;">
       <dt class="fragment fade-in">Interactions with Git's history require Git commands, but are immensely powerful</dt><dd class="fragment fade-in">More in <a href="http://handbook.datalad.org/en/latest/basics/101-137-history.html" target="_blank">
             handbook.datalad.org/basics/101-137-history.html
         </a></dd>
@@ -277,21 +332,38 @@ on https://datalad-hub.inm7.de or on your own system:
       <dt class="fragment fade-in">A life-saver that is not well-known: <code>git reflog</code></dt><dd class="fragment fade-in">A time-limited backlog of every past performed action, can undo every mistake except <code>git restore</code> and <code>git clean</code>.</dd>
        </dl>
     </section>
-
-  <section>
-      <h2>Questions!</h2>
-      <iframe src="https://directpoll.com/r?XDbzPBdEt8j1rJlVwV5I4m6c9z8nJU2YLnRe3j3k",
-              style="border: 0" width="900" height="800"></iframe>
-  </section>
 </section>
 
-  <section>
+
 <section>
-<h2>A look underneath the hood</h2>
-    <h4>(In-depth explanations how and why things work, with plenty of teasers to additional features)</h4>
+    <section>
+        <h2>💻Your turn💻</h2>
+    
+        At the <a href="https://psychoinformatics-de.github.io/rdm-course/01-content-tracking-with-datalad/index.html#breaking-things-and-repairing-them">
+            <strong>Breaking things and repairing them</strong> 
+        </a> section, follow the code-along instructions to:
+
+        <br><br>
+        <ol style="font-size: 34px;">
+            <li>Edit a file by making unintended changes</li>
+            <li>Restore edited versions of a file/dataset with <code class="intext-code">git restore</code></li>
+            <li>Commit incorrect changes to the dataset history <code class="intext-code">datalad save</code></li>
+            <li>Revert incorrect changes in the dataset with <code class="intext-code">git revert</code></li>
+        </ol>
+
+        <br><br>
+        <small><em>(stop before section <strong>Data processing</strong> )</em></small>
+    </section>
 </section>
 
-         <section data-transition="None" style="vertical-align:top">
+
+<section>
+    <section>
+    <h2>A look underneath the hood</h2>
+        <h4>(In-depth explanations how and why things work, with plenty of teasers to additional features)</h4>
+    </section>
+
+    <section data-transition="None" style="vertical-align:top">
         <h3>There are two version control tools at work - why?</h3>
         <p class="fragment fade-in">Git does not handle large files well.
             <div class="r-stack">
@@ -313,19 +385,22 @@ on https://datalad-hub.inm7.de or on your own system:
         <p class="fragment fade-in">git-annex to the rescue! Let's take a look how it works</p>
     </section>
 
-  <section data-markdown><script type="text/template" >
-  ## Consuming datasets
-  * A dataset can be created from scratch/existing directories:
-  <pre><code class="bash" style="max-height:none">$ datalad create mydataset
-  [INFO] Creating a new annex repo at /home/adina/mydataset
-  create(ok): /home/adina/mydataset (dataset)
+  <section>
+  <h2>Consuming datasets</h2>
+  
+  A dataset can be created from scratch/existing directories:
+  <pre><code class="bash" style="max-height:none">
+    $ datalad create mydataset
+    [INFO] Creating a new annex repo at /home/adina/mydataset
+    create(ok): /home/adina/mydataset (dataset)
   </code></pre>
-  * but datasets can also be installed from paths or from URLs:
-  <pre><code class="bash" style="max-height:none">$ datalad clone https://github.com/datalad-datasets/human-connectome-project-openaccess HCP
-  install(ok): /tmp/HCP (dataset)
+  but datasets can also be installed from paths or from URLs:
+  <pre><code class="bash" style="max-height:none">
+    $ datalad clone https://github.com/datalad-datasets/human-connectome-project-openaccess HCP
+    install(ok): /tmp/HCP (dataset)
   </code></pre>
-            <small>Hint: Did you know that you can get the <a href="https://github.com/datalad-datasets/human-connectome-project-openaccess" target="_blank"> Human Connectome Project Open Access Data </a> as a Dataset?</small>
-  </script>
+  <small>Hint: Did you know that you can get the <a href="https://github.com/datalad-datasets/human-connectome-project-openaccess" target="_blank"> Human Connectome Project Open Access Data </a> as a Dataset?</small>
+  
  </section>
 
   <section data-transition="None">
@@ -472,19 +547,10 @@ $ du -sh
               </a> )</li>
           <li>Per-command basis (e.g., via <code>datalad save --to-git</code>)</li>
       </ul>
-  </section>
-
-
-  <section>
-      <h2>Text versus binary files</h2>
-      The <em>text2git</em> procedure affects text files. Can you identify
-      them?
-      <iframe src="https://directpoll.com/r?XDbzPBdEt8j1rJlVwV5I4m6c9z8nJU2YLnRe3j3k",
-              style="border: 0" width="900" height="800"></iframe>
       <small>An overview of text- versus binary files and implications for version control is in
-      <a href="https://psychoinformatics-de.github.io/rdm-course/02-structuring-data/index.html#file-types-text-vs-binary" target="_blank">
-          psychoinformatics-de.github.io/rdm-course/02-structuring-data/index.html#file-types-text-vs-binary
-      </a> </small>
+        <a href="https://psychoinformatics-de.github.io/rdm-course/02-structuring-data/index.html#file-types-text-vs-binary" target="_blank">
+            psychoinformatics-de.github.io/rdm-course/02-structuring-data/index.html#file-types-text-vs-binary
+        </a> </small>
   </section>
 
   <section>
@@ -686,18 +752,34 @@ $ ls outputs/images_greyscale/chinstrap_02_grey.jpg
 
       </ul>
   </section>
+</section>
 
 
-  <section>
-      <h2>Questions!</h2>
-      <small>Awkward silence can be bridged with awkward MC questions :) </small>
-        <iframe src="https://directpoll.com/r?XDbzPBdEt8j1rJlVwV5I4m6c9z8nJU2YLnRe3j3k",
-              style="border: 0" width="900" height="800"></iframe>
-  </section>
-  </section>
+<section>
+    <section>
+        <h2>💻Your turn💻</h2>
+    
+        Starting at the <a href="https://psychoinformatics-de.github.io/rdm-course/01-content-tracking-with-datalad/index.html#data-processing">
+            <strong>Data processing</strong> 
+        </a> section, follow the code-along instructions to:
 
-  <section>
+        <br><br>
+        <ol style="font-size: 34px;">
+            <li>Save the output of a script changing a file with <code class="intext-code">datalad save</code></li>
+            <li>Save the output AND provenance of a script changing a file with <code class="intext-code">datalad run</code></li>
+            <li>Try to edit an annex and lock-protected file</li>
+            <li>Unlock an annexed file with <code class="intext-code">datalad unlock</code></li>
+            <li>Save and lock an unlocked annexed file with <code class="intext-code">datalad save</code> or <code class="intext-code">datalad run</code></li>
+        </ol>
 
+        <br><br>
+        <small><em>(continue until the end of the page)</em></small>
+    </section>
+</section>
+
+
+
+<section>
 <section>
   <h2> Dropping and removing stuff </h2>
   <table>
@@ -728,6 +810,11 @@ $ ls outputs/images_greyscale/chinstrap_02_grey.jpg
               file contents are not actually removed when you <em>rm</em> them.
               Interactions with the revision history of the dataset can bring them "back to life"</li>
       </ul>
+
+      <small>A complete overview of file system operations is in
+        <a href="http://handbook.datalad.org/en/latest/basics/101-136-filesystem.html" target="_blank">
+            handbook.datalad.org/en/latest/basics/101-136-filesystem.html
+        </a></small>
   </section>
 
   <section data-transition="None">
@@ -831,20 +918,31 @@ $ rm -rf local-dataset
       </li>
       </ul>
   </section>
+</section>
 
 <section>
-          <h2>Questions!</h2>
-      <small>Awkward silence can be bridged with awkward MC questions :) </small>
-        <iframe src="https://directpoll.com/r?XDbzPBdEt8j1rJlVwV5I4m6c9z8nJU2YLnRe3j3k",
-              style="border: 0" width="900" height="800"></iframe>
-    <small>A complete overview of file system operations is in
-          <a href="http://handbook.datalad.org/en/latest/basics/101-136-filesystem.html" target="_blank">
-              handbook.datalad.org/en/latest/basics/101-136-filesystem.html
-          </a></small>
-  </section>
-  </section>
+    <section>
+        <h2>💻Your turn💻</h2>
+    
+        Follow the code-along instructions at <a href="https://psychoinformatics-de.github.io/rdm-course/92-filesystem-operations/index.html">
+            <strong>Removing datasets and files</strong> 
+        </a> to:
 
+        <br><br>
+        <ol style="font-size: 34px;">
+            <li>Obtain a dataset with <code class="intext-code">datalad clone</code></li>
+            <li>Retrieve file content with <code class="intext-code">datalad get</code></li>
+            <li>Inspect local and remote file content availability with <code class="intext-code">git annex whereis</code></li>
+            <li>Remove a local copy of file content with <code class="intext-code">datalad drop</code></li>
+            <li>Inspect a dataset's remotes/siblings with <code class="intext-code">datalad siblings</code></li>
+            <li>Remove a local clone of a dataset with <code class="intext-code">datalad remove</code></li>
+            <li>Unsafely remove a local clone of a dataset or copy of a file with <code class="intext-code">datalad drop/remove --reckless availability</code></li>
+        </ol>
 
+        <br><br>
+        <small><em>(continue until the end of the page)</em></small>
+    </section>
+</section>
 
 			</div>
 		</div>
@@ -853,6 +951,7 @@ $ rm -rf local-dataset
 		<script src="../reveal.js/plugin/notes/notes.js"></script>
 		<script src="../reveal.js/plugin/markdown/markdown.js"></script>
 		<script src="../reveal.js/plugin/highlight/highlight.js"></script>
+        <script src="../custom_functions.js"></script>
 		<script>
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
@@ -865,7 +964,7 @@ $ rm -rf local-dataset
 				width: 1280,
 				height: 960,
 				// Factor of the display size that should remain empty around the content
-				margin: 0.3,
+				margin: 0.2,
 				// Bounds for smallest/largest possible scale to apply to content
 				minScale: 0.2,
 				maxScale: 1.0,

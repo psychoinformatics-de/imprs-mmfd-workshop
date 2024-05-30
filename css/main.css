@@ -91,15 +91,15 @@ imgcredit
   box-shadow: 10px 10px 8px #888888 !important;
 }
 
-                                                                                                              :root {
+:root {
     --color: white;
 }
 
-section > pre > code {
+section > pre > code, li > pre > code  {
     padding: 2em;
 }
 
-section > pre > code::after {
+section > pre > code::after, li > pre > code::after{
     content: "copy";
     color: var(--color);
     position: absolute;
@@ -129,4 +129,18 @@ section > div > pre > code::after {
     border: 2px solid;
     border-color: var(--color);
     border-radius: 2px;
+}
+
+/* .intext-code {
+  color: var(--color);
+  background-color: #333;
+  border: 2px solid;
+  border-color: #333;
+  border-radius: 0.2em;
+  white-space: nowrap;
+} */
+
+.intext-code {
+  color: rgb(231, 98, 98);
+  white-space: nowrap;
 }
