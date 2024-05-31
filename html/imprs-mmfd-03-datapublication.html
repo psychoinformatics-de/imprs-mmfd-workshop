@@ -22,14 +22,55 @@
 			<div class="slides">
 
 
-  <section>
 <section>
-<script src="https://cdn.logwork.com/widget/countdown.js"></script>
-<a href="https://logwork.com/countdown-2zu8" class="countdown-timer"
-   data-style="columns" data-timezone="Europe/Berlin" data-date="2022-07-21 11:00">
-    Data sharing & Collaboration Session starts in</a>
-    Have a ☕!
-</section>
+
+    <section>
+    <h2>Research data management with DataLad</h2>
+    <h2>@ IMPRS-MMFD</h2>
+    <strong>3 - Data Publication and Collaboration</strong><br>
+    <img src="../pics/datalad_git.svg" style="height:260px; margin-bottom: 0;" alt="title image">
+        <div style="margin-top:1em;text-align:center">
+        <table style="border: none;">
+        <tr>
+            <td>
+                Stephan Heunis<br>
+                <small>
+                <a href="https://github.com/jsheunis" target="_blank">
+                <img data-src="../pics/GitHub.png" style="height:30px;margin:0px" />
+                jsheunis
+                </a>
+            </small>
+            </td>
+            <td>
+                Michał Szczepanik<br>
+                <small>
+                <a href="https://github.com/mslw" target="_blank">
+                <img data-src="../pics/GitHub.png" style="height:30px;margin:0px" />
+                mslw
+                </a>
+            </small>
+            </td>
+        </tr>
+        <tr>
+        <td>
+            <img style="height:70px;margin-right:10px;margin-top:20px" data-src="../pics/fzj_logo.svg" /><br>
+        </td>
+        <td style="padding-top: 20px; vertical-align: top;">
+    <small style="margin-top:0px;margin-top:0px"><a href="http://psychoinformatics.de" target="_blank">Psychoinformatics lab</a>,
+                <br> Institute of Neuroscience and Medicine (INM-7)<br>
+                        Research Center Jülich</small><br>
+        </td>
+        </tr>
+        </table>
+        </div>
+    
+    <br><br><small>
+        Slides: <a href="https://github.com/datalad-handbook/course/blob/master/talks/PDFs" target="_blank">
+        https://github.com/datalad-handbook/course/</a></small>
+    </a>
+    </section>
+    </section>
+  <section>
 
   <section data-transition="None">
       <h2>Quick recap</h2>
@@ -64,118 +105,6 @@
   </section>
 
 
-  <section data-transition="None">
-      <h2>Drop & remove</h2>
-      <ul style="font-size:30px">
-          <li>Try to remove (<em>rm</em>) one of the pictures in your dataset. What happens?</li>
-          <li class="fragment fade-in">Version control tools keep a revision history of your files -
-              file contents are not actually removed when you <em>rm</em> them.
-              Interactions with the revision history of the dataset can bring them "back to life"</li>
-      </ul>
-  </section>
-
-  <section data-transition="None">
-      <h2>Drop & remove</h2>
-      <ul style="font-size:30px">
-          <li>Clone a small example dataset to drop file contents and remove datasets:<br>
-              <pre><code>$ datalad clone https://github.com/datalad-datasets/machinelearning-books.git
-$ cd machinelearning-books
-$ datalad get A.Shashua-Introduction_to_Machine_Learning.pdf </code></pre>
-          <li class="fragment fade-in"><strong>datalad drop</strong> removes annexed file contents from a local dataset
-              annex and frees up disk space. It is the antagonist of <strong>get</strong> (which can get files and subdatasets).
-          <pre><code>$ datalad drop A.Shashua-Introduction_to_Machine_Learning.pdf
-drop(ok): /tmp/machinelearning-books/A.Shashua-Introduction_to_Machine_Learning.pdf (file)
-          [checking https://arxiv.org/pdf/0904.3664v1.pdf...]</code></pre></li>
-          <li class="fragment fade-in">But: Default safety checks require that dropped files can be re-obtained
-          to prevent accidental data loss. <strong>git annex whereis</strong> reports all registered locations
-          of a file's content</li>
-          <li class="fragment fade-in"><strong>drop</strong> does not only operate on individual annexed files,
-          but also directories, or globs, and it can uninstall subdatasets:
-          <pre><code>$ datalad clone https://github.com/datalad-datasets/human-connectome-project-openaccess.git
-$ cd human-connectome-project-openaccess
-$ datalad get -n HCP1200/996782
-$ datalad drop --what all  HCP1200/996782</code></pre></li>
-      </ul>
-  </section>
-
-  <section data-transition="None">
-      <h2>Drop & remove</h2>
-      <ul style="font-size:30px">
-         <li><strong>datalad remove</strong> removes complete dataset or dataset hierarchies
-             and leaves no trace of them. It is the antagonist to <strong>clone</strong>.
-          <pre><code># The command operates outside of the to-be-removed dataset!
-$ datalad remove -d . machinelearning-books
-uninstall(ok): /tmp/machinelearning-books (dataset)</code></pre></li>
-          <li class="fragment fade-in">But: Default safety checks require that it could be re-cloned in its most recent version
-              from other places, i.e., that there is a <em>sibling</em> that has all revisions that exist locally
-              <strong>datalad siblings</strong> reports all registered siblings of a dataset.
-          </li>
-      </ul>
-  </section>
-
-  <section data-transition="None">
-      <h2>Drop & remove</h2>
-      <ul style="font-size:30px">
-          <li>Create a dataset from scratch and add a file<br>
-              <pre><code>$ datalad create local-dataset
-$ cd local-dataset
-$ echo "This file content will only exist locally" > local-file.txt
-$ datalad save -m "Added a file without remote content availability"</code></pre>
-          <li class="fragment fade-in"><strong>datalad drop</strong> refuses to remove annexed file contents if it
-          can't verify that <strong>datalad get</strong> could re-retrieve it
-          <pre><code>$ datalad drop local-file.txt
-$ drop(error): local-file.txt (file) [unsafe; Could only verify the existence of 0 out of 1 necessary copy;
-              (Note that these git remotes have annex-ignore set: origin upstream);
-              (Use --reckless availability to override this check, or adjust numcopies.)]
-</code></pre></li>
-          <li class="fragment fade-in">Adding <strong>--reckless availability</strong> overrides this check
-          <pre><code>$ datalad drop local-file.txt --reckless availability</code></pre></li>
-          <li class="fragment fade-in">Be mindful that <strong>drop</strong> will only operate on
-          the most recent version of a file - past versions may still exist afterwards unless you drop them
-          specifically. <strong>git annex unused</strong> can identify all files that are left behind</li>
-      </ul>
-  </section>
-
-  <section data-transition="None">
-      <h2>Drop & remove</h2>
-      <ul style="font-size:30px">
-          <li class="fragment fade-in"><strong>datalad remove</strong> refuses to remove
-              datasets without an up-to-date <em>sibling</em>
-              <pre><code>$ datalad remove -d local-dataset
-uninstall(error): . (dataset) [to-be-dropped dataset has revisions that are not available at any known
-                  sibling. Use `datalad push --to ...` to push these before dropping the local dataset,
-                  or ignore via `--reckless availability`. Unique revisions: ['main']]
-</code></pre></li>
-          </li>
-          <li class="fragment fade-in">Adding <strong>--reckless availability</strong> overrides this check
-          <pre><code>$ datalad remove -d local-dataset --reckless availability</code></pre></li>
-      </ul>
-  </section>
-
-  <section>
-      <h2>Removing wrongly</h2>
-      <ul style="font-size:30px">
-      <li>
-          Using a file browser or command line calls like <strong>rm -rf</strong> on datasets is doomed to fail.
-          Recreate the local dataset we just removed:
-          <pre><code>$ datalad create local-dataset
-$ cd local-dataset
-$ echo "This file content will only exist locally" > local-file.txt
-$ datalad save -m "Added a file without remote content availability"</code></pre>
-      </li>
-      <li class="fragment fade-in" >Removing it the wrong way causes chaos and leaves an usuable dataset corpse behind:
-      <pre><code>$ rm -rf local-dataset
-rm: cannot remove 'local-dataset/.git/annex/objects/Kj/44/MD5E-s42--8f008874ab52d0ff02a5bbd0174ac95e.txt/
-MD5E-s42--8f008874ab52d0ff02a5bbd0174ac95e.txt': Permission denied
-</code></pre></li>
-      <li class="fragment fade-in" >The dataset can't be fixed, but to remove the corpse <strong>chmod</strong> (change file mode bits) it (i.e., make it writable)
-          <pre><code>$ chmod +w -R local-dataset
-$ rm -rf local-dataset
-</code></pre>
-      </li>
-      </ul>
-  </section>
-
 <section>
   <h2> Publishing datasets </h2>
   <table>
@@ -200,7 +129,7 @@ $ rm -rf local-dataset
   <section data-transition="None">
       <h2>Publishing datasets</h2>
       I have a dataset on my computer. How can I share it, or collaborate on it?
-      <img height="900" src="../pics/artwork/src/publishing/startingpoint.svg">
+      <img height="750" src="../pics/artwork/src/publishing/startingpoint.svg">
   </section>
 
   <section data-transition="None">
@@ -208,12 +137,12 @@ $ rm -rf local-dataset
       <ul style="font-size:30px">
           <li class="fragment fade-in-then-semi-out" data-fragment-index="1">Datasets can be cloned, pushed, and updated from and to <strong>local</strong> and <strong>remote</strong></strong> paths,
               remote <strong>hosting services</strong>, external <strong>special remotes</strong></li>
-      <img class="fragment fade-in" data-fragment-index="1" style="box-shadow: 5px 5px 3px #888888"  height="330" src="../pics/artwork/src/collaboration.svg">
+      <img class="fragment fade-in" data-fragment-index="1" style="box-shadow: 5px 5px 3px #888888; text-align: center;"  height="280" src="../pics/artwork/src/collaboration.svg">
           <li class="fragment fade-in">Examples: <br>
-          Local path <pre><code>../my-projects/experiment_data</code></pre>
-          Remote path <pre><code>myuser@myinstitutes.hcp.system:/home/myuser/my-projects/experiment_data</code></pre>
-          Hosting service <pre><code>git.github.com:myuser/experiment_data.git</code></pre>
-          External special remotes <pre><code>osf://my-osf-project-id</code></pre></li>
+          Local path <pre><code class="language-bash">../my-projects/experiment_data</code></pre>
+          Remote path <pre><code class="language-bash">myuser@myinstitutes.hcp.system:/home/myuser/my-projects/experiment_data</code></pre>
+          Hosting service <pre><code class="language-bash">git.github.com:myuser/experiment_data.git</code></pre>
+          External special remotes <pre><code class="language-bash">osf://my-osf-project-id</code></pre></li>
       </ul>
   <aside class="notes">
   Idea behind datalad: Enable a similar level of tooling and culture for the distribution and version control of data as it is present for open source software development
@@ -279,18 +208,18 @@ $ rm -rf local-dataset
       <ul>
           <li>Most public datasets separate content in Git versus git-annex behind the scenes</li>
       </ul>
-      <img height="900" src="../pics/artwork/src/publishing/publishing_network_gitvsannex.svg">
+      <img height="750" src="../pics/artwork/src/publishing/publishing_network_gitvsannex.svg">
 
   </section>
 
   <section data-transition="None">
       <h2>Sharing datasets</h2>
-      <img height="900" src="../pics/artwork/src/publishing/publishing_network_publishparts.svg">
+      <img height="750" src="../pics/artwork/src/publishing/publishing_network_publishparts.svg">
   </section>
 
   <section data-transition="None">
       <h2>Sharing datasets</h2>
-      <img height="900" src="../pics/artwork/src/publishing/publishing_network_publishparts2.svg">
+      <img height="750" src="../pics/artwork/src/publishing/publishing_network_publishparts2.svg">
   </section>
 
   <section data-transition="None">
@@ -307,7 +236,7 @@ $ rm -rf local-dataset
           </li>
           <li class="fragment fade-in">
               Publication dependencies automate pushing to the correct place, e.g.,
-              <pre><code style="bash">$ git config --local remote.github.datalad-publish-depends gdrive
+              <pre><code class="bash">$ git config --local remote.github.datalad-publish-depends gdrive
 # or
 $ datalad siblings add --name origin --url git@git.jugit.fzj.de:adswa/experiment-data.git --publish-depends s3            </code></pre></li>
       </ul>
@@ -359,46 +288,24 @@ $ datalad siblings add --name origin --url git@git.jugit.fzj.de:adswa/experiment
   <section data-transition="None">
       <h2>Sharing datasets</h2>
             <p style="font-size:30px"> Special case 1: repositories with annex support</p>
+
+            <img src="../pics/gin-logo.png" alt="">
+            <br>
                   [LIVE DEMO GIN]<br>
-      <!--<img height="850" class="fragment fade-in" src="../pics/ginpublishing.gif">
-        -->
   </section>
 
   <section data-transition="None">
       <h2>Sharing datasets</h2>
              <p style="font-size:30px">Special case 2: Special remotes with repositories</p>
+             <img src="../pics/osf_logo.png" alt="">
+             <br>
       <small>Requires the DataLad extension
           <a href="http://docs.datalad.org/projects/osf/en/latest/" target="_blank">datalad-osf</a>
       </small><br>
-      [LIVE DEMO OSF]<br>
-      <!--<img height="850" src="../pics/publishosf.gif">
-       -->
+      [You'll be doing this yourself in a short while...]<br>
+      
   </section>
-  <section data-transition="None">
-      <h2>Sharing datasets</h2>
-             <p style="font-size:30px">Special case 2: Special remotes with repositories</p>
-      <small>Requires the DataLad extension
-          <a href="http://docs.datalad.org/projects/next/en/latest/" target="_blank">datalad-next</a>
-      </small><br>
-      [DEMO WEBDAV]<br>
-      <iframe width="1250" height="715" src="https://www.youtube.com/embed/XkcwpqPQHQY?start=34" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <!--<img height="850" src="../pics/publishosf.gif">
-       -->
-            <small>source: <a href="https://www.youtube.com/watch?v=XkcwpqPQHQY" target="_blank">
-          youtube.com/watch?v=XkcwpqPQHQY
-      </a></small>
-  </section>
-
-
-  <section>
-      <h2>Sharing datasets</h2>
-      <p style="font-size:30px">Special case 3: RIA stores for dataset hosting/backup</p>
-      <small>Tutorial for large scale, reproducible computation: <a href="https://github.com/psychoinformatics-de/fairly-big-processing-workflow" target="_blank">
-          github.com/psychoinformatics-de/fairly-big-processing-workflow</a> </small>
-      <img height="850" src="../pics/ukbworkflow_simplified.svg">
-  </section>
-
-
+  
   <section>
       <h2>Sharing datasets</h2>
       <ul style="font-size:30px">
@@ -428,54 +335,40 @@ $ datalad siblings add --name origin --url git@git.jugit.fzj.de:adswa/experiment
   <section data-transition="None">
       <h2>Cloning DataLad datasets</h2>
       How does cloning dataset feel like for a consumer?
-      <img height="900" src="../pics/artwork/src/publishing/clone_local.svg">
+      <img height="750" src="../pics/artwork/src/publishing/clone_local.svg">
   </section>
 
   <section data-transition="None">
       <h2>Cloning DataLad datasets</h2>
       How does cloning dataset feel like for a consumer?
-      <img height="900" src="../pics/artwork/src/publishing/clone_server.svg">
+      <img height="750" src="../pics/artwork/src/publishing/clone_server.svg">
   </section>
 
   <section data-transition="None">
       <h2>Cloning DataLad datasets</h2>
       How does cloning dataset feel like for a consumer?
-      <img height="900" src="../pics/artwork/src/publishing/clone_url.svg">
+      <img height="750" src="../pics/artwork/src/publishing/clone_url.svg">
   </section>
 
   <section data-transition="None">
       <h2>Cloning DataLad datasets</h2>
       Let's take a look at the special cases: <br>
+      <img src="../pics/gin-logo.png" alt="">
+            <br>
       [LIVE DEMO CLONING GIN]
-      <!--<img height="900" src="../pics/clonegin.gif">
-      -->
   </section>
 
 
   <section data-transition="None">
       <h2>Cloning DataLad datasets</h2>
       Let's take a look at the special cases:<br>
+      <img src="../pics/osf_logo.png" alt="">
+             <br>
             <small>Requires the DataLad extension
           <a href="http://docs.datalad.org/projects/osf/en/latest/" target="_blank">datalad-osf</a>
       </small><br>
-      [LIVE DEMO CLONING OSF]
-      <!--<img height="900" src="../pics/cloneosf.gif">
-      -->
-  </section>
-
-  <section data-transition="None">
-      <h2>Cloning DataLad datasets</h2>
-      Let's take a look at the special cases:<br>
-            <small>Requires the DataLad extension
-          <a href="http://docs.datalad.org/projects/next/en/latest/" target="_blank">datalad-next</a>
-      </small><br>
-      [DEMO CLONING WebDAV]
-      <iframe width="1250" height="715" src="https://www.youtube.com/embed/XkcwpqPQHQY?start=90" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <!--<img height="900" src="../pics/cloneosf.gif">
-      -->
-      <small>source: <a href="https://www.youtube.com/watch?v=XkcwpqPQHQY" target="_blank">
-          youtube.com/watch?v=XkcwpqPQHQY
-      </a></small>
+      [You'll be doing this yourself in a short while...]<br>
+      
   </section>
 
   <section>
@@ -505,75 +398,71 @@ $ datalad siblings add --name origin --url git@git.jugit.fzj.de:adswa/experiment
       <h2>Publish your own dataset</h2>
 
       <a class="fragment fade-in" style="font-size:25px" href="https://psychoinformatics-de.github.io/rdm-course/01-content-tracking-with-datalad/index.html#getting-started-create-an-empty-dataset" target="_blank">
-           Code: psychoinformatics-de.github.io/rdm-course/03-remote-collaboration/index.html#publishing-datasets-to-gin
+           Based on: psychoinformatics-de.github.io/rdm-course/03-remote-collaboration/index.html#publishing-datasets-to-gin
       </a>
   </section>
   </section>
 
   <section>
-      <section data-transition="None">
-          <h2>Using Gin for data publication</h2>
-          <img src="../pics/screenshot-gin1.png" height="400px"><br>
-          <ul style="font-size:30px">
-              <strong>Gin has a few advantages for publishing data</strong>
-              <li>DataLad Integration: Convenience commands to create siblings </li>
-              <li>Annex support: Easiest possible publication, preview and
-                  individual download of annexed contents in the webinterface</li>
-              <li>Open Science support: Archive datasets to obtain a DOI;
-                  ensures minimal metadata and a license</li>
-              <li>Private or Public repositories</li>
-              <li>Runs on European infrastructure (some data protection officers like this)</li>
-              <li>Free, and with yet unlimited storage</li>
-          </ul>
-      </section>
-
-      <section data-transition="None">
-          <h2>Using Gin for data publication</h2>
-          <img src="../pics/gin-doi2.png" height="800px"><br>
-      </section>
-
-      <section>
-          <h2>Using Gin for data publication</h2>
-          <ul style="font-size:30px">
-              <li>Step 1: Create a Gin account (requires an email address) </li>
-              <li>Step 2: Generate and upload an SSH key</li>
-              <li>Step 3: Create and register a sibling repository</li>
-              <li>Step 4: Publish your dataset</li>
-              <li>Step 5: Update your dataset</li>
-          </ul>
-      </section>
-
-      <section>
-          <h3>Summary: Publishing and updating data (Gin)</h3>
-      <dl style="font-size:30px"><br>
-          <dt class="fragment fade-in-then-semi-out" data-fragment-index="1">
-              Gin is a free repository hosting service</dt>
-          <dd class="fragment fade-in-then-semi-out" data-fragment-index="1">
-              To publish datasets to Gin, you need an account and an SSH key</dd>
-          <dt class="fragment fade-in-then-semi-out" data-fragment-index="2">
-              DataLad has built-in integration with <strong>datalad create-sibling-gin</strong></dt>
-          <dd class="fragment fade-in-then-semi-out" data-fragment-index="2">
-              This requires generating an access token </dd>
-          <dt class="fragment fade-in-then-semi-out" data-fragment-index="3">
-              Gin has annex support</dt>
-          <dd class="fragment fade-in-then-semi-out" data-fragment-index="3">
-              <strong>datalad push</strong> published all dataset contents and the Git history</dd>
-          <dt class="fragment fade-in-then-semi-out" data-fragment-index="4">
-              The dataset can be cloned from Gin by others</dt>
-          <dd class="fragment fade-in-then-semi-out" data-fragment-index="4">
-              If the dataset is public, this does not even require a Gin account</dd>
-          <dt class="fragment fade-in" data-fragment-index="5">
-              You can still publish your dataset to (your lab's) GitHub/GitLab/other places</dt>
-          <dd class="fragment fade-in" data-fragment-index="5">
-              and use Gin only for data hosting. Walkthrough:
-              <a href="http://handbook.datalad.org/en/latest/basics/101-139-gin.html#ginbts" target="_blank">
-                  handbook.datalad.org/basics/101-139-gin.html#ginbts
-              </a> </dd>
-      </dl>
-          <p class="fragment fade-in"><strong>Next: Let's collaborate!</strong></p>
-      </section>
+    <section>
+        <h2><code>Publishing to OSF</code></h2>
+        <p><a href="https://osf.io/">https://osf.io/</a></p>
+        <img src="../pics/git-annex-osf-logo.png" alt="datalad-osf-logo" width="50%">
+    </section>
+    
+    <section style="text-align: left;">
+        <div style="display: flex !important; align-items: center">
+            <h2>create-sibling-osf</h2>&nbsp;<a href="https://docs.datalad.org/projects/osf/en/latest/">(docs)</a>
+        </div>
+        
+        <ol>
+            <li class="fragment">Log into OSF</li>
+            <li class="fragment">Create personal access token</li>
+            <li class="fragment">Enter credentials using <code>datalad osf-credentials</code>:</li>
+        </ol>
+        <div class="fragment">
+            <pre style="margin-left: 0;">
+                <code data-trim class="language-bash" onmousemove="showHover(event)" onmousedown="clickCopy(event)" onmouseleave="leaveElement(event)">
+                    datalad osf-credentials
+                </code>
+            </pre>
+        </div>
+        <div class="fragment">
+            4. Create the sibling:
+            <pre style="margin-left: 0;">
+                <code data-trim class="language-bash" onmousemove="showHover(event)" onmousedown="clickCopy(event)" onmouseleave="leaveElement(event)">
+                    datalad create-sibling-osf -d . -s my-osf-sibling \
+                    --title 'my-osf-project-title' --mode export --public
+                </code>
+            </pre>
+        </div>
+        <div class="fragment">
+            5. Push to the sibling:
+            <pre style="margin-left: 0;">
+                <code data-trim class="language-bash" onmousemove="showHover(event)" onmousedown="clickCopy(event)" onmouseleave="leaveElement(event)">
+                    datalad push -d . --to my-osf-sibling
+                </code>
+            </pre>
+        </div>
+        <div class="fragment">
+            6. Clone from the sibling:
+            <pre style="margin-left: 0;">
+                <code data-trim class="language-bash" onmousemove="showHover(event)" onmousedown="clickCopy(event)" onmouseleave="leaveElement(event)">
+                    cd ..
+                    datalad clone osf://my-osf-project-id my-osf-clone
+                </code>
+            </pre>
+        </div>
+    </section>
+    </section>
+      
+    <section>
 <section>
 <h3>Publication and Collaboration Exercise</h3>
+
+<small><em>replace GIN with OSF</em></small>
+
+
 <div class="r-stack">
 <img src="../pics/pub_collab_table_s01.svg" width="100%">
 <img class="fragment" data-fragment-index="2" src="../pics/pub_collab_table_s02.svg" width="100%">
@@ -591,9 +480,9 @@ $ datalad siblings add --name origin --url git@git.jugit.fzj.de:adswa/experiment
 <div class="r-stack">
 <div class="fragment fade-in-then-out" data-fragment-index="1"><code>datalad clone ...</code></div>
 <div class="fragment fade-in-then-out" data-fragment-index="3"><code>datalad save ...</code></div>
-<div class="fragment fade-in-then-out" data-fragment-index="5"><code>datalad create-sibling-gin ...</code></div>
+<div class="fragment fade-in-then-out" data-fragment-index="5"><code>datalad create-sibling-osf ...</code></div>
 <div class="fragment fade-in-then-out" data-fragment-index="7"><code>datalad push ...</code></div>
-<div class="fragment fade-in-then-out" data-fragment-index="9"><code>datalad drop ...</code></div>
+<div class="fragment fade-in-then-out" data-fragment-index="9"><code>datalad remove ...</code></div>
 <div class="fragment fade-in-then-out" data-fragment-index="11"><code>datalad clone ...</code></div>
 <div class="fragment fade-in-then-out" data-fragment-index="13"><code>datalad save ...</code></div>
 <div class="fragment fade-in-then-out" data-fragment-index="15"><code>datalad push ...</code></div>
