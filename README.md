@@ -9,7 +9,7 @@ Materials for DataLad workshop at IMPRS-MMFD Tübingen: https://imprs-mmfd.tuebi
 1. [Introduction](https://psychoinformatics-de.github.io/imprs-mmfd-workshop/html/imprs-mmfd-01-introduction.html)
 2. [DataLad Basics](https://psychoinformatics-de.github.io/imprs-mmfd-workshop/html/imprs-mmfd-02-basics.html)
 3. [Data Publication](https://psychoinformatics-de.github.io/imprs-mmfd-workshop/html/imprs-mmfd-03-datapublication.html)
-4. [Reproducibility](https://psychoinformatics-de.github.io/imprs-mmfd-workshop/html/imprs-mmfd-04-reproducibility.html)
+4. [Reusability and Reproducibility](https://psychoinformatics-de.github.io/imprs-mmfd-workshop/html/imprs-mmfd-04-reproducibility.html)
 
 ### Program
 
@@ -42,7 +42,7 @@ Materials for DataLad workshop at IMPRS-MMFD Tübingen: https://imprs-mmfd.tuebi
     Session 4 (tomorrow, 11.30-13.00)
     </dt>
     <dd>
-    Computational reproducibility 🧑‍🏫💻, <br>
+    Reusability and reproducibility 🧑‍🏫💻, <br>
     Outro 🧑‍🏫, <br>
     </dd>
 </dl>

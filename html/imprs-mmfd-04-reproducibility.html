@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<!-- Edit me start! -->
-		<title>Computational reproducibility</title>
+		<title>Reusability and reproducibility</title>
 		<meta name="description" content=" Reproducible processing with DataLad ">
 		<meta name="author" content=" Adina Wagner & Michael Hanke ">
 		<!-- Edit me end! -->
@@ -21,21 +21,75 @@
 		<div class="reveal">
 			<div class="slides">
 
-  <!--...Datalad Basics...-->
 
-  <section>
-<section>
-<script src="https://cdn.logwork.com/widget/countdown.js"></script>
-<a href="https://logwork.com/countdown-2zu8" class="countdown-timer"
-   data-style="columns" data-timezone="Europe/Berlin" data-date="2022-07-21 13:30">
-   Up next: Computational reproducibility </a>
-</section>
-</section>
+
 
 <section>
-    <section>
-        [Overflow area to finish everything unfinished]
+
+    <section style="margin-top: 1em;">
+    <h2>Research data management with DataLad</h2>
+    <h2>@ IMPRS-MMFD</h2>
+    <strong>4 - Reusability and reproducibility</strong><br>
+    <img src="../pics/datalad_git.svg" style="height:260px; margin-bottom: 0;" alt="title image">
+        <div style="margin-top:1em;text-align:center">
+        <table style="border: none;">
+        <tr>
+            <td>
+                Stephan Heunis<br>
+                <small>
+                <a href="https://github.com/jsheunis" target="_blank">
+                <img data-src="../pics/GitHub.png" style="height:30px;margin:0px" />
+                jsheunis
+                </a>
+                <a href="https://mas.to/@jsheunis" target="_blank">
+                    <img data-src="../pics/mastodon.svg" style="height:30px;margin:0px" />
+                    @jsheunis@mas.to
+                    </a>
+            </small>
+            </td>
+            <td>
+                Michał Szczepanik<br>
+                <small>
+                <a href="https://github.com/mslw" target="_blank">
+                <img data-src="../pics/GitHub.png" style="height:30px;margin:0px" />
+                mslw
+                </a>
+                <a href="https://masto.ai/@doktorpanik" target="_blank">
+                    <img data-src="../pics/mastodon.svg" style="height:30px;margin:0px" />
+                    @doktorpanik@masto.ai
+                    </a>
+            </small>
+            </td>
+        </tr>
+        <tr>
+        <td>
+            <img style="height:70px;margin-right:10px;margin-top:20px" data-src="../pics/fzj_logo.svg" /><br>
+        </td>
+        <td style="padding-top: 20px; vertical-align: top;">
+    <small style="margin-top:0px;margin-top:0px"><a href="http://psychoinformatics.de" target="_blank">Psychoinformatics lab</a>,
+                <br> Institute of Neuroscience and Medicine (INM-7)<br>
+                        Research Center Jülich</small><br>
+        </td>
+        </tr>
+        </table>
+        </div>
+        <br><small>
+        Slides: <a href="https://github.com/datalad-handbook/course/blob/master/talks/PDFs" target="_blank">
+        https://github.com/datalad-handbook/course/</a></small>
+    </a>
     </section>
+    </section>
+
+
+    <section>
+        <section>
+            <h2>Reusability and Reproducibility</h2>
+
+        
+        </section>
+    </section>
+
+<section>
 
     <section data-markdown style="font-size:30px"><script type="text/template">
 ## Dataset management for Reproducibility & Reusability
@@ -141,8 +195,6 @@ Clearer separation of semantics, through use of pristine version of original dat
 
 <section>
     <h2>A machine-learning example</h2>
-
-    Code along or try it later at <br>
     <a href="http://handbook.datalad.org/en/latest/usecases/ml-analysis.html" target="_blank">
     handbook.datalad.org/usecases/ml-analysis.html</a>
 </a>
@@ -305,6 +357,28 @@ Clearer separation of semantics, through use of pristine version of original dat
     </ul>
 </section>
 </section>
+
+
+<section>
+    <section>
+        <h2>💻Your turn💻</h2>
+    
+        Follow the hands-on tutorial steps at 
+        <a href="https://handbook.datalad.org/en/latest/usecases/ml-analysis.html">handbook.datalad.org/en/latest/usecases/ml-analysis.html</a> to:
+        <br><br>
+        <ol style="font-size: 34px;">
+            <li><strong>Create</strong> an input dataset and add files to it using <code class="intext-code">download-url</code>
+            <li><strong>Create</strong> an analysis dataset using the <code class="intext-code">yoda</code> configuration</li>
+            <li><strong>Nest</strong> the input dataset inside the analysis dataset
+            <li><strong>Add</strong> the software container as a dependency using <code class="intext-code">datalad containers-add</code></li>
+            <li><strong>Save</strong> code to the analysis dataset for data preparation, training, and evaluation</li>
+            <li><strong>Run</strong> code with the software container using <code class="intext-code">datalad containers-run</code></li>
+            <li><strong>(Re)run</strong> code with the software container, at specific tags and in specific branches, using<code class="intext-code">datalad containers-run</code></li>
+            <li><strong>Inspect</strong> differences between the outputs of different runs using <code class="intext-code">git diff</code></li>
+        </ol>
+    </section>
+    </section>
+
 
 <section>
 <section data-markdown><script type="text/template">
